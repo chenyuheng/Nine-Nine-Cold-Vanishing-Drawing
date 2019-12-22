@@ -31,7 +31,6 @@
 
         let partsPath = "pic/笔画/亭前垂柳珍重待春风_00";
         let bgPath = "pic/亭前垂柳珍重待春风.png";
-        let switchText = "梅花九九消寒图";
         let status = 0;
         selfAdapt();
 
@@ -39,12 +38,10 @@
             if (status == 1) {
                 partsPath = "pic/笔画/亭前垂柳珍重待春风_00";
                 bgPath = "pic/亭前垂柳珍重待春风.png";
-                switchText = "梅花九九消寒图";
                 status = 0;
             } else {
                 partsPath = "pic/花瓣/梅花_00";
                 bgPath = "pic/梅花.png";
-                switchText = "“亭前杨柳珍重待春风”九九消寒图";
                 status = 1;
             }
             initialize();
@@ -76,7 +73,6 @@
                 strokesPath.push(partsPath
                     + (i < 10 ? "0" : "") + i + "_" + parseInt(i / 9 + 1) + "-" + (i % 9 + 1)  + ".png");
             }
-            document.getElementById("switch").innerText = switchText;
         }
 
         function getDayDiff() {
@@ -121,11 +117,10 @@
 
 <body onload="initialize()">
     <div id="main">
-        <div id="imageContainer">
+        <div id="imageContainer" onclick="switchStatus()">
         </div>
         <br />
         <div id="footer">
-            <p><a id="switch" onclick="switchStatus()" href="#"></a></p>
             <p><a class="github-button" href="https://github.com/chenyuheng/Nine-Nine-Cold-Vanishing-Drawing" data-icon="octicon-star" aria-label="Star chenyuheng/Nine-Nine-Cold-Vanishing-Drawing on GitHub">Star</a></p>
         </div>
     </div>
