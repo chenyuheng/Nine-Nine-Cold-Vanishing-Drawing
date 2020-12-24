@@ -1,22 +1,40 @@
 
 strokesPath = [];
-
-let partsPath = "pic/笔画/亭前垂柳珍重待春风_00";
-let bgPath = "pic/亭前垂柳珍重待春风.png";
+let img_dict = {};
+let bgPath = {};
 let status = 0;
 selfAdapt();
 
+function downloadImages() {
+            console.log("11");
+
+    let imagesPath = "pic/imgdata"
+    let r = new XMLHttpRequest();
+    r.onreadystatechange = function () {
+        if(r.readyState === XMLHttpRequest.DONE && r.status === 200) {
+            img_json_str = LZString.decompressFromUTF16(r.responseText);
+            img_dict = JSON.parse(img_json_str);
+            bgPath = img_dict["亭前垂柳珍重待春风"];
+            strokesPath = img_dict["笔画"];
+            display();
+        }
+    }
+    r.open("GET", imagesPath);
+    r.send();
+}
+
+
 function switchStatus() {
     if (status == 1) {
-        partsPath = "pic/笔画/亭前垂柳珍重待春风_00";
-        bgPath = "pic/亭前垂柳珍重待春风.png";
+        bgPath = img_dict["亭前垂柳珍重待春风"];
+        strokesPath = img_dict["笔画"];
         status = 0;
     } else {
-        partsPath = "pic/花瓣/梅花_00";
-        bgPath = "pic/梅花.png";
+        bgPath = img_dict["梅花"];
+        strokesPath = img_dict["花瓣"];
         status = 1;
     }
-    initialize();
+    display();
 }
 
 function selfAdapt() {
@@ -31,20 +49,6 @@ function selfAdapt() {
 
 window.onresize = function(){
     selfAdapt();
-}
-
-function initialize() {
-    initializePaths();
-    display(getDayDiff());
-}
-
-function initializePaths() {
-    let i;
-    strokesPath = [];
-    for (i = 0; i < 81; i++) {
-        strokesPath.push(partsPath
-            + (i < 10 ? "0" : "") + i + "_" + parseInt(i / 9 + 1) + "-" + (i % 9 + 1)  + ".png");
-    }
 }
 
 function getDayDiff() {
@@ -64,7 +68,8 @@ function getDayDiff() {
     return dayDiff + 1;
 }
 
-function display(day) {
+function display() {
+    let day = getDayDiff();
     let imageContainer = document.getElementById("imageContainer");
     imageContainer.innerHTML = "";
     let bg = document.createElement("img");
